@@ -25,7 +25,7 @@ class Canvas {
       T: new AnimatedSprite(0, 4, 64, 64, 5), // trophy
       J: new Sprite(8, 1), // jetpack
       Z: new Sprite(3, 1), // gun
-      P: new Sprite(2, 1), // purple gem
+      P: new Sprite(2, 1), // purple orbs
       R: new Sprite(1, 1), // red gem
       D: new Sprite(0, 1), // blue gem
       B: new Sprite(1, 0), // red brick
@@ -86,10 +86,4 @@ class Canvas {
   clear() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
-}
-
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
 }

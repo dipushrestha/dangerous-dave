@@ -171,13 +171,17 @@ class Player extends Entity {
 
       if (Tile.isPickable(tile.tile)) {
         this.game.sound.play('pickup');
+        this.game.score.value += Tile.scoreValue(tile.tile);
         this.game.level.clearTile(tile.x, tile.y);
       }
     }
   }
 
   kill() {
-    this.dead = true;
-    this.game.restart = true;
+    if (!this.dead) {
+      this.dead = true;
+      this.game.lives--;
+      this.game.restart = true;
+    }
   }
 }
