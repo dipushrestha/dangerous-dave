@@ -5,9 +5,16 @@
   <meta charset="utf-8" />
   <title>Dangerous Dave</title>
   <style>
+    body {
+      background-color: #313639;
+    }
+
     div {
+      position: absolute;
       width: 640px;
-      margin: auto;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
     }
 
     canvas {
@@ -37,7 +44,7 @@
   <script type="text/javascript">
     const gameOptions = {
       width: 640,
-      height: 384
+      height: 400
     };
     const game = new Game('game-container', gameOptions);
   </script>

@@ -12,6 +12,8 @@ class Tile {
   }
 
   static scoreValue(tile) {
+    if (!['P', 'D', 'R', 'E', 'C', 'Y', 'T'].includes(tile)) return 0;
+
     const values = {
       P: 50,
       D: 100,

@@ -69,4 +69,4 @@ class LevelMap {
 
     return this.maps[level];
   }
-} 
+}

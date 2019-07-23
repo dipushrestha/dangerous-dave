@@ -15,6 +15,7 @@ class Score {
   }
 
   update() {
+    if (isNaN(this.value)) console.log('nan');
     this.drawBoard();
   }
 
@@ -30,6 +31,7 @@ class Score {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.fillStyle = '#90ee90';
     this.ctx.font = '30px sans-serif'
-    this.ctx.fillText(info, 10, 30);
+    this.ctx.textAlign = 'center';
+    this.ctx.fillText(info, this.canvas.width / 2, 30);
   }
 }

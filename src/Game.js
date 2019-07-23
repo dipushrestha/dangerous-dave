@@ -6,6 +6,7 @@ class Game {
     this.restart = false;
     this.nextLevel = false;
     this.currentLevel = 0;
+    this.lastLevel = 2;
     this.input = new Input();
     this.sound = new GameSound();
     this.level = new Level(this, this.currentLevel);
@@ -30,7 +31,7 @@ class Game {
 
     if (this.nextLevel) {
       this.currentLevel++;
-      if (this.currentLevel >= Level.maps.length) {
+      if (this.currentLevel > this.lastLevel) {
         console.log('level finished');
         window.cancelAnimationFrame(this.animator);
         return false;
