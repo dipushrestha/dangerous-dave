@@ -60,5 +60,6 @@ class Enemy extends Entity {
 
   kill() {
     this.dead = true;
+    this.game.sound.play('enemyExplosion');
   }
 }

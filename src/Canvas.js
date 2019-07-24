@@ -20,6 +20,8 @@ class Canvas {
       player0l: new Sprite(5, 2),
       player1r: new Sprite(2, 2),
       player1l: new Sprite(6, 2),
+      playerjr: new Sprite(6, 4),
+      playerjl: new Sprite(5, 4),
       bullet: new Sprite(0, 14, 32, 10),
       spider: new Sprite(2, 10, 100, 64),
       T: new AnimatedSprite(0, 4, 64, 64, 5), // trophy
@@ -29,6 +31,9 @@ class Canvas {
       R: new Sprite(1, 1), // red gem
       D: new Sprite(0, 1), // blue gem
       B: new Sprite(1, 0), // red brick
+      A: new Sprite(6, 0), // triangular brown pattern
+      '/': new Sprite(7, 0), // triangular brown pattern
+      '\\': new Sprite(8, 0), // triangular brown pattern
       G: new Sprite(3, 0), // brown pattern brick
       Q: new Sprite(5, 0), // blue synthetic
       '-': new Sprite(4, 8), // purple platform
@@ -58,12 +63,12 @@ class Canvas {
       }
 
       if (tile === 'F') {
-        this.sprites[tile].animate(this.ctx, x - this.view.x, y - this.view.y, 2);
+        this.sprites[tile].animate(this.ctx, x - this.view.x, y - this.view.y, 3);
         return;
       }
 
       if (tile === 'W') {
-        this.sprites[tile].animate(this.ctx, x - this.view.x, y - this.view.y, 5);
+        this.sprites[tile].animate(this.ctx, x - this.view.x, y - this.view.y, 10);
         return;
       }
 

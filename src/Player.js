@@ -78,6 +78,10 @@ class Player extends Entity {
       this.adjustWalk('left');
     }
 
+    if ((keys.left.hold || keys.right.hold) && this.canJump()) {
+      this.game.sound.play('walk');
+    }
+
     if (keys.z.pulse && this.hasGun) {
       this.game.sound.play('playerGunshot');
       this.shoot(8);
@@ -137,6 +141,12 @@ class Player extends Entity {
     let sprite = 'player';
     sprite += Math.floor(this.t / 5) % 2;
     sprite += this.direction === 1 ? 'r' : 'l';
+
+    if (this.isUsingJetpack) {
+      sprite = 'playerj';
+      sprite += this.direction === 1 ? 'r' : 'l';
+    }
+
     this.game.canvas.drawSprite(this.x, this.y, sprite);
   }
 

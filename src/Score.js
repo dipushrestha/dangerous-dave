@@ -15,7 +15,6 @@ class Score {
   }
 
   update() {
-    if (isNaN(this.value)) console.log('nan');
     this.drawBoard();
   }
 
@@ -24,13 +23,21 @@ class Score {
   }
 
   drawBoard() {
-    let info = `SCORE: ${this.value}     
-      LEVEL: ${this.game.currentLevel + 1}
-      DAVES: ${this.game.lives}`;
+    const formatNumberLength = (num, len) => {
+      let r = '' + num;
+      while (r.length < len) {
+        r = '0' + r;
+      }
+      return r;
+    };
+
+    let info = 'SCORE:' + formatNumberLength(this.value, 5) +
+      '  LEVEL:' + formatNumberLength(this.game.currentLevel + 1, 2) +
+      '  LIVES:' + this.game.lives;
     this.ctx.fillStyle = '#000';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.fillStyle = '#90ee90';
-    this.ctx.font = '30px sans-serif'
+    this.ctx.font = '20px GameFont'
     this.ctx.textAlign = 'center';
     this.ctx.fillText(info, this.canvas.width / 2, 30);
   }

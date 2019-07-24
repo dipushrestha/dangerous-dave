@@ -85,11 +85,10 @@ class Level {
     let ctx = this.game.canvas.ctx;
     ctx.fillStyle = '#000';
     ctx.fillRect(0, canvas.height - 80, canvas.width, 80);
-    let info = `${this.player.hasJetpack ? 'TRY JETPACK! [X]' : ''}
-      ${this.player.hasGun ? 'USE GUN [Z]' : ''}`;
+    let info = `${this.player.hasJetpack ? 'JETPACK![X]' : ''} ${this.player.hasGun ? 'GUN[Z]' : ''}`;
     let trophyInfo = `${this.player.hasTrophy ? 'GO THRU THE DOOR!' : ''}`;
     ctx.fillStyle = '#90ee90';
-    ctx.font = '25px sans-serif'
+    ctx.font = '20px GameFont';
     ctx.textAlign = 'center';
     ctx.fillText(info, canvas.width / 2, canvas.height - 50);
     ctx.fillText(trophyInfo, canvas.width / 2, canvas.height - 15);

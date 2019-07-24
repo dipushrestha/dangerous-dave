@@ -1,4 +1,4 @@
-class GameSound {
+class Sound {
   constructor() {
     this.blip = new Audio('assets/sounds/blip.wav');
     this.door = new Audio('assets/sounds/door.wav');
@@ -9,6 +9,8 @@ class GameSound {
     this.playerExplosion = new Audio('assets/sounds/player-explosion.wav');
     this.playerGunshot = new Audio('assets/sounds/player-gunshot.wav');
     this.trophy = new Audio('assets/sounds/trophy.wav');
+    this.walk = new Audio('assets/sounds/walk.ogg');
+    this.walk.volume = 0.7;
   }
 
   play(sfx) {

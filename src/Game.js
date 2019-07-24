@@ -5,10 +5,10 @@ class Game {
     this.lives = 3;
     this.restart = false;
     this.nextLevel = false;
-    this.currentLevel = 0;
+    this.currentLevel = 2;
     this.lastLevel = 2;
     this.input = new Input();
-    this.sound = new GameSound();
+    this.sound = new Sound();
     this.level = new Level(this, this.currentLevel);
     this.score = new Score(containerId, this);
     this.canvas = new Canvas(containerId, options);
