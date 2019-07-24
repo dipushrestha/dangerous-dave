@@ -1,6 +1,6 @@
 class Tile {
   static isSolid(tile) {
-    return ['B', '+', '-', 'G', 'U', 'Q'].includes(tile);
+    return ['B', '+', '-', 'G', 'U', 'Q', 'L'].includes(tile);
   }
 
   static isPickable(tile) {

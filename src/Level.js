@@ -4,6 +4,7 @@ class Level {
     this.map = new LevelMap(n);
     this.tiles = [];
     this.entities = [];
+    this.isLevelingUp = false;
     this.player = new Player(this.game, this.map.player);
     this.entities.push(this.player);
     if (this.map.enemies) {
@@ -52,6 +53,11 @@ class Level {
   }
 
   draw() {
+    if (this.isLevelingUp) {
+      this.showLevelUpScreen();
+      return;
+    }
+
     let w = 18 * Tile.size;
     let dx = Math.floor(this.player.x / w) * w;
     this.game.canvas.setScroll(dx);
@@ -91,7 +97,7 @@ class Level {
       let str = '';
       for (let i = 0; i < 10; i++) {
         if (i < c) {
-          str += '~';
+          str += '*';
         } else {
           str += ' ';
         }
@@ -104,7 +110,41 @@ class Level {
     ctx.fillStyle = '#90ee90';
     ctx.font = '20px GameFont';
     ctx.textAlign = 'center';
-    ctx.fillText(jetpackInfo + ' ' + gunInfo, canvas.width / 2, canvas.height - 50);
+    ctx.fillText(jetpackInfo + '  ' + gunInfo, canvas.width / 2, canvas.height - 50);
     ctx.fillText(trophyInfo, canvas.width / 2, canvas.height - 15);
+  }
+
+  showLevelUpScreen() {
+    this.game.canvas.view.x = 0;
+
+    this.map.tiles = [
+      '                    ',
+      '                    ',
+      '                    ',
+      'LLLLLLLLLLLLLLLLLLLL',
+      '=                   ',
+      'LLLLLLLLLLLLLLLLLLLL',
+      '                    ',
+      '                    ',
+      '                    ',
+      '                    '
+    ];
+
+    for (let j = 0; j < this.map.tiles.length; j++) {
+      const line = this.map.tiles[j];
+      for (let i = 0; i < line.length; i++) {
+        const tile = line[i];
+        this.drawTile(tile, i, j);
+      }
+    }
+
+    this.game.input.keys.right.hold = true;
+    this.player.draw();
+
+    if (this.player.x >= this.game.canvas.canvas.width) {
+      this.game.nextLevel = true;
+      this.game.input.keys.right.hold = false;
+      this.isLevelingUp = false;
+    }
   }
 }

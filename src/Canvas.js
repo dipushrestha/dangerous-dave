@@ -31,6 +31,7 @@ class Canvas {
       R: new Sprite(1, 1), // red gem
       D: new Sprite(0, 1), // blue gem
       B: new Sprite(1, 0), // red brick
+      L: new Sprite(2, 0), // blue brick
       A: new Sprite(6, 0), // triangular brown pattern
       '/': new Sprite(7, 0), // triangular brown pattern
       '\\': new Sprite(8, 0), // triangular brown pattern

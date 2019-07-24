@@ -166,7 +166,9 @@ class Player extends Entity {
       if (tile.tile === '=') {
         if (this.hasTrophy) {
           this.game.sound.play('door');
-          this.game.nextLevel = true;
+          this.game.level.isLevelingUp = true;
+          this.x = Tile.size;
+          this.y = 4 * Tile.size;
           this.hasTrophy = false;
         }
       }
