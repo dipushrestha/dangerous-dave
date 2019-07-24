@@ -5,7 +5,7 @@ class Game {
     this.lives = 3;
     this.restart = false;
     this.nextLevel = false;
-    this.currentLevel = 2;
+    this.currentLevel = 0;
     this.lastLevel = 2;
     this.input = new Input();
     this.sound = new Sound();
