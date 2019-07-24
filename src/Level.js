@@ -85,12 +85,26 @@ class Level {
     let ctx = this.game.canvas.ctx;
     ctx.fillStyle = '#000';
     ctx.fillRect(0, canvas.height - 80, canvas.width, 80);
-    let info = `${this.player.hasJetpack ? 'JETPACK![X]' : ''} ${this.player.hasGun ? 'GUN[Z]' : ''}`;
+    let jetpackFuel = this.player.jetpackFuel;
+    let getStatus = (current, max) => {
+      let c = Math.floor(current / max * 10);
+      let str = '';
+      for (let i = 0; i < 10; i++) {
+        if (i < c) {
+          str += '~';
+        } else {
+          str += ' ';
+        }
+      }
+      return str;
+    }
+    let gunInfo = this.player.hasGun ? 'GUN(Z)' : '';
+    let jetpackInfo = this.player.hasJetpack ? `JETPACK![${getStatus(jetpackFuel, 100)}](X)` : '';
     let trophyInfo = `${this.player.hasTrophy ? 'GO THRU THE DOOR!' : ''}`;
     ctx.fillStyle = '#90ee90';
     ctx.font = '20px GameFont';
     ctx.textAlign = 'center';
-    ctx.fillText(info, canvas.width / 2, canvas.height - 50);
+    ctx.fillText(jetpackInfo + ' ' + gunInfo, canvas.width / 2, canvas.height - 50);
     ctx.fillText(trophyInfo, canvas.width / 2, canvas.height - 15);
   }
 }

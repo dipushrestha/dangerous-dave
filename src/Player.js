@@ -11,6 +11,7 @@ class Player extends Entity {
     this.hasTrophy = false;
     this.hasGun = false;
     this.hasJetpack = false;
+    this.jetpackFuel = 100;
     this.isUsingJetpack = false;
   }
 
@@ -27,6 +28,7 @@ class Player extends Entity {
         this.y += vel;
         this.adjustFall();
       }
+      this.jetpackFuel -= 0.1;
     } else {
       if (keys.up.hold) {
         if (!this.isJumping && this.canJump()) {
@@ -34,9 +36,6 @@ class Player extends Entity {
           this.isJumping = true;
           this.velY = vel;
           this.jumpGoal = this.y - 2.5 * Tile.size;
-          if (this.clipped('up')) {
-            console.log('notclipped');
-          }
           this.game.sound.play('jump');
         }
       }
@@ -93,6 +92,12 @@ class Player extends Entity {
       if (this.isUsingJetpack) {
         this.isJumping = false;
       }
+    }
+
+    if (this.jetpackFuel < 0) {
+      this.hasJetpack = false;
+      this.isUsingJetpack = false;
+      this.jetpackFuel = 100;
     }
 
     this.touchTiles();
