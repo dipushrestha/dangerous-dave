@@ -7,6 +7,8 @@ class Game {
     this.nextLevel = false;
     this.currentLevel = 0;
     this.lastLevel = 2;
+    this.containerId = containerId;
+    this.hasGameFinished = false;
     this.input = new Input();
     this.sound = new Sound();
     this.level = new Level(this, this.currentLevel);
@@ -24,7 +26,7 @@ class Game {
 
   update() {
     if (this.lives < 0) {
-      console.log('you are totally dead now');
+      this.end();
       window.cancelAnimationFrame(this.animator);
       return false;
     }
@@ -32,7 +34,6 @@ class Game {
     if (this.nextLevel) {
       this.currentLevel++;
       if (this.currentLevel > this.lastLevel) {
-        console.log('level finished');
         this.end();
         window.cancelAnimationFrame(this.animator);
         return false;
@@ -62,23 +63,21 @@ class Game {
   }
 
   end() {
+    const self = this;
     const endCanvas = document.createElement('canvas');
-    this.canvas.canvas.insertAdjacentElement('afterend', endCanvas);
+    self.canvas.canvas.insertAdjacentElement('afterend', endCanvas);
     const endCtx = endCanvas.getContext('2d');
 
     let inputBuffer = '';
 
     endCanvas.width = 600;
     endCanvas.height = 300;
-    endCanvas.style.position = 'fixed';
-    endCanvas.style.top = '50px';
-    endCanvas.style.left = '25px';
+    endCanvas.classList.add('end-canvas');
 
-    endCtx.fillStyle = '#fff';
-    endCtx.fillRect(0, 0, 600, 300);
-    endCtx.font = '20px GameFont';
+    drawInputBoard();
+    window.addEventListener('keydown', endScreenEventHandler);
 
-    window.addEventListener('keydown', e => {
+    function endScreenEventHandler(e) {
       let input = String.fromCharCode(e.keyCode);
       if (/[a-zA-Z]/.test(input)) {
         if (inputBuffer.length < 5) {
@@ -90,10 +89,83 @@ class Game {
         inputBuffer = inputBuffer.slice(0, -1);
       }
 
-      endCtx.fillStyle = '#fff';
-      endCtx.fillRect(0, 0, 600, 300);
-      endCtx.fillStyle = '#000';
-      endCtx.fillText('NAME:' + inputBuffer + '  SCORE:' + this.score.value, 200, 100);
-    });
+      if (e.keyCode === 13 && inputBuffer !== '') {
+        saveScore({ name: inputBuffer, score: self.score.value });
+        window.removeEventListener('keydown', endScreenEventHandler);
+        drawScoreBoard();
+        self.hasGameFinished = true;
+        return;
+      }
+
+      drawInputBoard();
+    }
+
+    function drawInputBoard() {
+      endCtx.fillStyle = '#f5f5f5';
+      endCtx.fillRect(0, 0, endCanvas.width, endCanvas.height);
+      endCtx.fillStyle = '#ff00ff';
+      endCtx.font = '25px GameFont';
+      endCtx.textAlign = 'center';
+
+      let cursor = (inputBuffer.length < 5) ? '|' : '';
+      endCtx.fillText('NAME:' + inputBuffer + cursor, endCanvas.width / 2, 130);
+      endCtx.fillText('SCORE:' + self.score.value, endCanvas.width / 2, 180);
+      endCtx.font = '15px GameFont';
+      endCtx.fillText('PRESS ENTER TO SAVE!', endCanvas.width / 2, 270);
+    }
+
+    function drawScoreBoard() {
+      endCtx.fillStyle = '#f5f5f5';
+      endCtx.fillRect(0, 0, endCanvas.width, endCanvas.height);
+      endCtx.fillStyle = '#ff00ff';
+      endCtx.textAlign = 'center';
+      endCtx.font = '30px GameFont';
+      endCtx.fillText('HIGHSCORES', endCanvas.width / 2, 50);
+
+      const scoreInfo = readScore();
+      let scoreY = 50;
+
+      let scoreCounter = scoreInfo.length > 5 ? 5 : scoreInfo.length;
+
+      for (let i = 0; i < scoreCounter; i++) {
+        endCtx.textAlign = 'left';
+        endCtx.font = '20px GameFont';
+        endCtx.fillText((i + 1), 135, scoreY + 50);
+        endCtx.fillText(scoreInfo[i].name, 210, scoreY + 50);
+        endCtx.textAlign = 'right';
+        endCtx.fillText(scoreInfo[i].score, 460, scoreY + 50);
+        scoreY += 30;
+      }
+
+      endCtx.font = '15px GameFont';
+      endCtx.textAlign = 'center';
+      endCtx.fillText('PRESS ENTER TO RESTART!', endCanvas.width / 2, 280);
+    }
+
+    function saveScore(scoreProp) {
+      let scoreInfo;
+
+      if (localStorage.getItem('scoreInfo') === null) {
+        scoreInfo = [];
+      } else {
+        scoreInfo = JSON.parse(localStorage.getItem('scoreInfo'));
+      }
+
+      scoreInfo.push(scoreProp);
+      scoreInfo.sort((a, b) => b.score - a.score);
+      localStorage.setItem('scoreInfo', JSON.stringify(scoreInfo));
+    }
+
+    function readScore() {
+      let scoreInfo;
+
+      if (localStorage.getItem('scoreInfo') === null) {
+        scoreInfo = [];
+      } else {
+        scoreInfo = JSON.parse(localStorage.getItem('scoreInfo'));
+      }
+
+      return scoreInfo;
+    }
   }
 }

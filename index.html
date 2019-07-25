@@ -8,32 +8,8 @@
   <meta name="description" content="Dangerous Dave 2D">
   <meta name="keywords" content="dangerousdave, dangerous-dave, dave, dave2d">
   <link rel="shortcut icon" type="image/ico" href="assets/icons/dave.ico">
+  <link rel="stylesheet" href="css/style.css">
   <title>Dangerous Dave</title>
-  <style>
-    @font-face {
-      font-family: 'GameFont';
-      src: url('assets/fonts/game-font.ttf');
-    }
-
-    body {
-      background-color: #313639;
-    }
-
-    #game-container {
-      position: absolute;
-      width: 640px;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    canvas {
-      margin: 0;
-      padding: 0;
-      display: block;
-      font-family: 'GameFont';
-    }
-  </style>
 </head>
 
 <body>
@@ -52,13 +28,7 @@
   <script src="src/Map.js"></script>
   <script src="src/Level.js"></script>
   <script src="src/Game.js"></script>
-  <script type="text/javascript">
-    const gameOptions = {
-      width: 640,
-      height: 400
-    };
-    const game = new Game('game-container', gameOptions);
-  </script>
+  <script src="src/main.js"></script>
 </body>
 
 </html>
