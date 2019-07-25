@@ -31,13 +31,19 @@ class Score {
       return r;
     };
 
-    let info = 'SCORE:' + formatNumberLength(this.value, 5) +
-      '  LEVEL:' + formatNumberLength(this.game.currentLevel + 1, 2) +
-      '  LIVES:' + this.game.lives;
+    let info;
+    if (this.game.level.isLevelingUp) {
+      info = `GOOD WORK! ONLY ${this.game.lastLevel - this.game.currentLevel} MORE TO GO!`;
+    } else {
+      info = 'SCORE:' + formatNumberLength(this.value, 5) +
+        '  LEVEL:' + formatNumberLength(this.game.currentLevel + 1, 2) +
+        '  LIVES:' + this.game.lives;
+    }
+
     this.ctx.fillStyle = '#000';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.fillStyle = '#90ee90';
-    this.ctx.font = '20px GameFont'
+    this.ctx.font = '20px GameFont';
     this.ctx.textAlign = 'center';
     this.ctx.fillText(info, this.canvas.width / 2, 30);
   }

@@ -93,7 +93,7 @@ class Level {
     ctx.fillRect(0, canvas.height - 80, canvas.width, 80);
     let jetpackFuel = this.player.jetpackFuel;
     let getStatus = (current, max) => {
-      let c = Math.floor(current / max * 10);
+      let c = Math.ceil(current / max * 10);
       let str = '';
       for (let i = 0; i < 10; i++) {
         if (i < c) {
@@ -116,6 +116,7 @@ class Level {
 
   showLevelUpScreen() {
     this.game.canvas.view.x = 0;
+    this.game.canvas.clear();
 
     this.map.tiles = [
       '                    ',
@@ -138,12 +139,16 @@ class Level {
       }
     }
 
-    this.game.input.keys.right.hold = true;
+    // this.game.input.keys.left.hold = false;
+    // this.game.input.keys.right.hold = true;
     this.player.draw();
+    this.player.x += 1.5;
+    this.player.direction = 1;
+    this.player.adjustWalk('right');
 
     if (this.player.x >= this.game.canvas.canvas.width) {
       this.game.nextLevel = true;
-      this.game.input.keys.right.hold = false;
+      // this.game.input.keys.right.hold = false;
       this.isLevelingUp = false;
     }
   }

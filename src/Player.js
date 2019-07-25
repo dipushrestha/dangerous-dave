@@ -17,7 +17,7 @@ class Player extends Entity {
 
   update() {
     const { keys } = this.game.input;
-    const vel = 2;
+    const vel = 2.2;
 
     if (this.isUsingJetpack) {
       if (keys.up.hold) {
@@ -166,6 +166,7 @@ class Player extends Entity {
       if (tile.tile === '=') {
         if (this.hasTrophy) {
           this.game.sound.play('door');
+          this.game.input.clear();
           this.game.level.isLevelingUp = true;
           this.x = Tile.size;
           this.y = 4 * Tile.size;

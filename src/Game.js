@@ -33,6 +33,7 @@ class Game {
       this.currentLevel++;
       if (this.currentLevel > this.lastLevel) {
         console.log('level finished');
+        this.end();
         window.cancelAnimationFrame(this.animator);
         return false;
       }
@@ -46,7 +47,10 @@ class Game {
       this.frame = 1;
     }
 
-    this.input.update();
+    if (!this.level.isLevelingUp) {
+      this.input.update();
+    }
+
     this.score.update();
     this.level.update();
     this.frame++;
@@ -55,5 +59,41 @@ class Game {
 
   render() {
     this.level.draw();
+  }
+
+  end() {
+    const endCanvas = document.createElement('canvas');
+    this.canvas.canvas.insertAdjacentElement('afterend', endCanvas);
+    const endCtx = endCanvas.getContext('2d');
+
+    let inputBuffer = '';
+
+    endCanvas.width = 600;
+    endCanvas.height = 300;
+    endCanvas.style.position = 'fixed';
+    endCanvas.style.top = '50px';
+    endCanvas.style.left = '25px';
+
+    endCtx.fillStyle = '#fff';
+    endCtx.fillRect(0, 0, 600, 300);
+    endCtx.font = '20px GameFont';
+
+    window.addEventListener('keydown', e => {
+      let input = String.fromCharCode(e.keyCode);
+      if (/[a-zA-Z]/.test(input)) {
+        if (inputBuffer.length < 5) {
+          inputBuffer += input;
+        }
+      }
+
+      if (e.keyCode === 8) {
+        inputBuffer = inputBuffer.slice(0, -1);
+      }
+
+      endCtx.fillStyle = '#fff';
+      endCtx.fillRect(0, 0, 600, 300);
+      endCtx.fillStyle = '#000';
+      endCtx.fillText('NAME:' + inputBuffer + '  SCORE:' + this.score.value, 200, 100);
+    });
   }
 }
