@@ -17,7 +17,7 @@ class Player extends Entity {
 
   update() {
     const { keys } = this.game.input;
-    const vel = 2.2;
+    const vel = 2.5;
 
     if (this.isUsingJetpack) {
       if (keys.up.hold) {
@@ -35,7 +35,7 @@ class Player extends Entity {
           this.t = 5;
           this.isJumping = true;
           this.velY = vel;
-          this.jumpGoal = this.y - 2.5 * Tile.size;
+          this.jumpGoal = this.y - 2.2 * Tile.size;
           this.game.sound.play('jump');
         }
       }
@@ -165,12 +165,15 @@ class Player extends Entity {
 
       if (tile.tile === '=') {
         if (this.hasTrophy) {
+          this.hasTrophy = false;
+          this.hasGun = false;
+          this.hasJetpack = false;
+          this.isUsingJetpack = false;
           this.game.sound.play('door');
           this.game.input.clear();
           this.game.level.isLevelingUp = true;
           this.x = Tile.size;
           this.y = 4 * Tile.size;
-          this.hasTrophy = false;
         }
       }
 

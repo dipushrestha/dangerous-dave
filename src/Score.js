@@ -8,10 +8,6 @@ class Score {
     this.canvas.height = 40;
     this.container.appendChild(this.canvas);
     this.ctx = this.canvas.getContext('2d');
-
-    this.sprites = {
-      R: new Sprite(1, 0)
-    };
   }
 
   update() {
@@ -34,6 +30,9 @@ class Score {
     let info;
     if (this.game.level.isLevelingUp) {
       info = `GOOD WORK! ONLY ${this.game.lastLevel - this.game.currentLevel} MORE TO GO!`;
+      if (this.game.currentLevel === this.game.lastLevel) {
+        info = 'CONGRATULATIONS!';
+      }
     } else {
       info = 'SCORE:' + formatNumberLength(this.value, 5) +
         '  LEVEL:' + formatNumberLength(this.game.currentLevel + 1, 2) +
@@ -42,9 +41,11 @@ class Score {
 
     this.ctx.fillStyle = '#000';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.fillStyle = '#e5dfe4';
+    this.ctx.fillRect(0, this.canvas.height - 4, this.canvas.width, 4);
     this.ctx.fillStyle = '#90ee90';
     this.ctx.font = '20px GameFont';
     this.ctx.textAlign = 'center';
-    this.ctx.fillText(info, this.canvas.width / 2, 30);
+    this.ctx.fillText(info, this.canvas.width / 2, 28);
   }
 }

@@ -91,6 +91,11 @@ class Level {
     let ctx = this.game.canvas.ctx;
     ctx.fillStyle = '#000';
     ctx.fillRect(0, canvas.height - 80, canvas.width, 80);
+    ctx.fillStyle = '#e5dfe4';
+    ctx.fillRect(0, canvas.height - 80, canvas.width, 4);
+
+    if (this.isLevelingUp) return;
+
     let jetpackFuel = this.player.jetpackFuel;
     let getStatus = (current, max) => {
       let c = Math.ceil(current / max * 10);
@@ -139,8 +144,8 @@ class Level {
       }
     }
 
-    // this.game.input.keys.left.hold = false;
-    // this.game.input.keys.right.hold = true;
+    this.drawInfoBoard();
+
     this.player.draw();
     this.player.x += 1.5;
     this.player.direction = 1;
@@ -148,7 +153,6 @@ class Level {
 
     if (this.player.x >= this.game.canvas.canvas.width) {
       this.game.nextLevel = true;
-      // this.game.input.keys.right.hold = false;
       this.isLevelingUp = false;
     }
   }

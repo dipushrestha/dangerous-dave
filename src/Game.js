@@ -1,5 +1,10 @@
 class Game {
   constructor(containerId, options) {
+    this.input;
+    this.sound;
+    this.score;
+    this.level;
+    this.canvas;
     this.frame = 1;
     this.animator;
     this.lives = 3;
@@ -7,14 +12,10 @@ class Game {
     this.nextLevel = false;
     this.currentLevel = 0;
     this.lastLevel = 2;
+    this.options = options;
     this.containerId = containerId;
     this.hasGameFinished = false;
-    this.input = new Input();
-    this.sound = new Sound();
-    this.level = new Level(this, this.currentLevel);
-    this.score = new Score(containerId, this);
-    this.canvas = new Canvas(containerId, options);
-    this.loop();
+    this.start();
   }
 
   loop() {
@@ -60,6 +61,59 @@ class Game {
 
   render() {
     this.level.draw();
+  }
+
+  start() {
+    const self = this;
+    let blinkFlag = false;
+    const startCanvas = document.createElement('canvas');
+    const startCtx = startCanvas.getContext('2d');
+    const container = document.getElementById(self.containerId);
+    container.appendChild(startCanvas);
+
+    startCanvas.width = 600;
+    startCanvas.height = 440;
+
+    setInterval(drawStartScreen, 1000);
+    window.addEventListener('keydown', startScreenEventHandler);
+
+    function drawStartScreen() {
+      startCtx.fillStyle = '#000';
+      startCtx.fillRect(0, 0, startCanvas.width, startCanvas.height);
+      startCtx.fillStyle = '#90ee90';
+      startCtx.font = '50px GameFont';
+      startCtx.textAlign = 'center';
+
+      startCtx.fillText('DANGEROUS', startCanvas.width / 2, 120);
+      startCtx.fillText('DAVE', startCanvas.width / 2, 200);
+
+      startCtx.font = '20px GameFont';
+
+      if (!blinkFlag) {
+        startCtx.fillText('PRESS SPACE KEY TO CONTINUE!', startCanvas.width / 2, 380);
+      } else {
+        startCtx.fillText('PRESS SPACE KEY TO CONTINUE', startCanvas.width / 2, 380);
+      }
+
+      blinkFlag = !blinkFlag;
+    }
+
+    function initGameObjects() {
+      self.input = new Input();
+      self.sound = new Sound();
+      self.score = new Score(self.containerId, self);
+      self.canvas = new Canvas(self.containerId, self.options);
+      self.level = new Level(self, self.currentLevel);
+    }
+
+    function startScreenEventHandler(e) {
+      if (e.keyCode === 32) {
+        container.removeChild(startCanvas);
+        window.removeEventListener('keydown', startScreenEventHandler);
+        initGameObjects();
+        self.loop();
+      }
+    }
   }
 
   end() {
